@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html layout:decorate="template.html">
+<head>
+<meta charset="UTF-8">
+<!--  -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body layout:fragment="body">
+
+	<form th:action="@{/category/search}" method="get">
+
+		<input name="name" th:value="${name}" placeholder="tim kiem ten..." />
+
+		<input name="page" th:value="${page}"
+			placeholder="nhap so thu tu trang..." />
+		<button type="submit">Search</button>
+		<p>
+			Tong so trang: <span th:text="${totalPage}"></span>
+		</p>
+		<select name="size">
+			<option th:each="i:${#numbers.sequence( 5, 15, 5)}" th:text="${i}"
+				th:value="${i}" th:selected="${size == i}"></option>
+			<!-- <option th:text="${size}" th:selected="${size}"></option> -->
+			<!-- 	<option th:value="5">5</option> -->
+			<!-- 			<option th:value="10">10</option>
+			<option th:value="15">15</option> -->
+
+		</select>
+
+	</form>
+	<br>
+	<a th:href="@{/category/create}" class="btn btn-primary"><span
+		class="glyphicon glyphicon-plus"></span>Create</a>
+	<div class="container mt-3">
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Other</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="category : ${categorylist}">
+
+					<td th:text="${category.id}"></td>
+					<td th:text="${category.name}"></td>
+					<td>
+						<div style="word-wrap: break-word;">
+							<a class="btn btn-primary"
+								th:href="@{'/category/update?id=' + ${category.id}}"> <span
+								class="glyphicon glyphicon-pencil"></span> Update
+							</a> <a class="btn btn-primary"
+								th:href="@{'/category/delete?id=' + ${category.id}}"> <span
+								class="glyphicon glyphicon-remove"></span> Delete
+							</a>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<ul class="pagination">
+				<li class="page-item"><a class="page-link"
+					th:href="@{'/category/search?page='+ ${page - 1 < 0 ? 0 : (page - 1)}  }">Previous</a></li>
+
+				<li th:if="${totalPage > 0}"
+					th:each="i: ${#numbers.sequence(0, totalPage - 1)}"
+					class="page-item"><a class="page-link"
+					th:href="@{'/category/search?page='+ ${i} }" th:text="${i}"></a></li>
+
+				<li class="page-item"><a class="page-link"
+					th:href="@{'/category/search?page='+ ${page + 1 >= totalPage ? (totalPage) : (page) } }">Next</a></li>
+
+			</ul>
+	</div>
+</body>
+</html>

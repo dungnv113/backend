@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html layout:decorate="/template.html">
+<head>
+<meta charset="UTF-8">
+<!--  -->	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body layout:fragment="body">
+	
+	<form th:action="@{/billitems/search}" method="post">
+		
+		<input name="name" th:value="${name}" placeholder="tim kiem ten..." />
+
+		<button type="submit" th:text="#{button.search}">Search</button><br>
+		<select name="size">
+			<option value="5">5</option>
+			<option value="10">10</option>
+			<option value="15">15</option>
+		</select> 
+		<input name="page" th:value="${page}" placeholder="Trang" />
+		<button type="submit">Search</button>
+		<p>Tong so: <span th:text="${totalPage}"></span></p>
+	</form>
+	<a th:href="@{/product/create}" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>Create</a>
+	<div class="container mt-3">
+			<table class="table table-bordered table-striped" >
+				<thead>
+					<tr >
+						<th>ID</th>
+						<th>Bill</th>
+						<th>Quantity</th>
+						<th>Buy Price</th>
+						<th>Product Name</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="billitems : ${list}" >
+					
+						<td th:text="${billitems.id}"></td>
+						<td th:text="${billitems.bill.name}"></td>
+						<td th:text="${billitems.quantity}"></td>
+						<td th:text="${billitems.price}"></td>
+						<td th:text="${billitems.product.name}"></td>
+						<td> 
+							<div style="word-wrap: break-word;">
+							<a class="btn btn-primary" th:href="@{'/billitems/update?id=' + ${billitems.id}}">
+								<span class="glyphicon glyphicon-pencil"></span> Update
+								</a>
+							<a class="btn btn-primary" th:href="@{'/billitems/delete?id=' + ${billitems.id}}">
+							 	<span class="glyphicon glyphicon-remove"></span> Delete
+							</a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+</body>
+</html>

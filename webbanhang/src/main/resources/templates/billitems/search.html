@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html layout:decorate="/template.html">
+<head>
+<meta charset="UTF-8">
+<!--  -->	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body layout:fragment="body">
+	
+	<form th:action="@{/billitems/search}" method="get">
+		
+		<input name="id" th:value="${id}" placeholder="tim kiem ten..." />	 
+		<input name="page" th:value="${page}" placeholder="Trang" />
+		<button type="submit">Search</button>
+		<p>Tong so: <span th:text="${totalPage}"></span></p>
+		<select name="size">
+			<option value="5">5</option>
+			<option value="10">10</option>
+			<option value="15">15</option>
+		</select>
+	</form>
+	<br>
+	<a th:href="@{/billitems/create}" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>Create</a>
+	<div class="container mt-3">
+			<table class="table table-bordered table-striped" >
+				<thead>
+					<tr >
+						<th>ID</th>
+						<th>Bill</th>
+						<th>Quantity</th>
+						<th>Buy Price</th>
+						<th>Product Name</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="billitems : ${list}" >
+					
+						<td th:text="${billitems.id}"></td>
+						<td th:text="${billitems.bill.id}"></td>
+						<td th:text="${billitems.quantity}"></td>
+						<td th:text="${billitems.price}"></td>
+						<td th:text="${billitems.product.name}"></td>
+						<td> 
+							<div style="word-wrap: break-word;">
+							<a class="btn btn-primary" th:href="@{'/billitems/update?id=' + ${billitems.id}}">
+								<span class="glyphicon glyphicon-pencil"></span> Update
+								</a>
+							<a class="btn btn-primary" th:href="@{'/billitems/delete?id=' + ${billitems.id}}">
+							 	<span class="glyphicon glyphicon-remove"></span> Delete
+							</a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+				<ul class="pagination">
+				<li class="page-item"><a class="page-link"
+					th:href="@{'/billitems/search?page='+ ${page - 1 < 0 ? 0 : (page - 1)}  }">Previous</a></li>
+
+				<li th:if="${totalPage > 0}"
+					th:each="i: ${#numbers.sequence(0, totalPage - 1)}"
+					class="page-item"><a class="page-link"
+					th:href="@{'/billitems/search?page='+ ${i} }" th:text="${i}"></a></li>
+
+				<li class="page-item"><a class="page-link"
+					th:href="@{'/billitems/search?page='+ ${page + 1 >= totalPage ? (totalPage) : (page) } }">Next</a></li>
+
+			</ul>
+		</div>
+</body>
+</html>

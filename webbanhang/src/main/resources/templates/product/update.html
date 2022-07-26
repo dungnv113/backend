@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html layout:decorate="/template.html">
+<head>
+<meta charset="UTF-8">
+<title>Edit</title>
+</head>
+<body layout:fragment="body">
+
+	<form th:object="${product}" action="/product/update" method="post" enctype="multipart/form-data">
+		
+			<div class="mb-3 mt-3">
+				<label for="id"> ID:</label><br>
+				<input class="form-control" readonly="readonly" th:field="*{id}" name="id">
+			</div>
+			
+			<div class="mb-3 mt-3">
+				<label for="name"> Name:</label><br>
+				<input class="form-control" th:value="${product.name}" name="name">
+				<p th:errors="*{name}" />
+			</div>
+		
+			<div class="mb-3 mt-3">
+							<label class="col">Category:</label> <select name="categoryId"
+								class="form-select col">
+								<option >Chọn</option>
+								<option th:each="d : ${categories}" th:value="${d.id}"
+									th:text="${d.name}"
+									th:selected="${d.id == product.category.id}"></option>
+							</select>
+						</div>
+			<div class="mb-3 mt-3">
+				<label for="name"> Price:</label><br>
+				<input class="form-control" th:value="${product.price}" name="price">
+				<p th:errors="*{category}" />
+			</div>
+			<div class="mb-3 mt-3">
+				<label for="name"> Description:</label><br>
+				<input class="form-control" th:value="${product.description}" name="description">
+				<p th:errors="*{description}" />
+			</div>
+			<div class="mb-3 mt-3">
+				<label for="name">Image:</label> 
+				<input type="file" name ="file">
+			</div>
+			
+			<button type="submit" th:text="#{button.save}"></button>
+	</form>
+
+</body>
+</html>

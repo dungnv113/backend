@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html layout:decorate="/template.html">
+<head>
+<meta charset="UTF-8">
+<title>Edit</title>
+</head>
+<body layout:fragment="body">
+
+	<form th:object="${billItems}" action="/billitems/update" method="post">
+
+		<div class="mb-3 mt-3">
+			<label for="id"> ID:</label><br> <input class="form-control"
+				readonly="readonly" th:field="*{id}" name="id">
+		</div>
+		<div class="mb-3 mt-3">
+			<label class="col">Bill:</label> <select name="billId"
+				class="form-select col">
+				<option>Chọn</option>
+				<option th:each="d : ${bills}" th:value="${d.id}" th:text="${d.id}"
+					th:selected="${d.id == billItems.bill.id}"></option>
+			</select>
+		</div>
+		<div class="mb-3 mt-3">
+			<label class="col">Product:</label> <select name="productId"
+				class="form-select col">
+				<option>Chọn</option>
+				<option th:each="d : ${products}" th:value="${d.id}"
+					th:text="${d.name}" th:selected="${d.id == billItems.product.id}"></option>
+			</select>
+		</div>
+		<div class="mb-3 mt-3">
+			<label for="name"> Quantity:</label><br> <input
+				class="form-control" th:value="${billItems.quantity}" name="quantity">
+			<p th:errors="*{quantity}" />
+		</div>
+		<div class="mb-3 mt-3">
+			<label for="name"> Price:</label><br> <input
+				class="form-control" th:value="${billItems.price}" name="price">
+			<p th:errors="*{price}" />
+		</div>
+		<button type="submit">SAVE</button>
+	</form>
+
+</body>
+</html>
